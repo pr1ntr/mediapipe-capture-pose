@@ -1,0 +1,8 @@
+# standard python .gitignore
+__pycache__/
+*.py[cod]
+
+state/*.json
+venv/
+pose_landmarker.task
+.idea/

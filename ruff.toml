@@ -1,0 +1,32 @@
+[tool.ruff]
+# Maximum allowed line length
+line-length = 140
+
+# Enable specific linting rules (errors, warnings, etc.)
+select = ["E", "F", "W", "C", "B"]
+
+# Ignore specific rules
+ignore = [
+    "E203",  # Whitespace before ':' (Black compatibility)
+    "W503",  # Line break before binary operator (Black compatibility)
+]
+
+# Exclude directories from linting
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "venv",
+    ".venv",
+]
+
+# Add plugins for additional checks
+# Uncomment to enable flake8 or isort-style checks
+# extend-select = ["I", "A"]
+
+# Specific settings for docstring conventions
+docstring-convention = "google"
+
+# Specify additional file extensions to check
+# force-exclude = [".example"]
