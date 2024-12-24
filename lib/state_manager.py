@@ -19,7 +19,9 @@ class StateManager:
                 "height": 512,
                 "fps": 5,
                 "file_path": "",
-                "save_to_file": False
+                "save_to_file": False,
+                "webcam_index": 0,
+                "webcams": []
             }
             self.subscribers = {}
             self._load_state()

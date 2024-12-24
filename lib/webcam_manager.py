@@ -1,6 +1,8 @@
 import cv2
 from threading import Thread
 import time
+
+from lib.list_available_cameras import list_available_cameras
 from lib.state_manager import StateManager
 import mediapipe as mp
 from mediapipe.tasks import python
@@ -18,6 +20,7 @@ class WebcamManager:
         self.thread = None
         self.initialization_thread = None
         self.latest_frame = None
+        self.state_manager.set_state('webcams', list_available_cameras())
 
         base_options = python.BaseOptions(model_asset_path='./pose_landmarker.task')
         options = vision.PoseLandmarkerOptions(
@@ -28,6 +31,7 @@ class WebcamManager:
         self.mp_pose = mp.solutions.pose
         self.pose = self.mp_pose.Pose()
         self.mp_drawing = mp.solutions.drawing_utils
+
 
     def _configure_camera(self):
         """Configure the webcam based on the state."""
@@ -77,7 +81,8 @@ class WebcamManager:
 
     def _initialize_webcam(self):
         """Initialize the webcam in a separate thread."""
-        self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # Default webcam
+        cam_index = self.state_manager.get_state("webcam_index")
+        self.cap = cv2.VideoCapture(cam_index, cv2.CAP_DSHOW)  # Default webcam
         if not self.cap.isOpened():
             raise RuntimeError("Unable to open webcam.")
         self._configure_camera()

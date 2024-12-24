@@ -49,13 +49,13 @@ class BaseGUI:
         )
 
         # Width
-        tk.Label(frame, text="Width:").grid(row=1, column=0, padx=10)
+        tk.Label(frame, text="Width:").grid(row=1, column=0)
         self.width_entry = tk.Entry(frame, width=8)
         self.width_entry.insert(0, self.state_manager.get_state("width"))
         self.width_entry.grid(row=1, column=1, padx=10)
 
         # Height
-        tk.Label(frame, text="Height:").grid(row=1, column=2, padx=10)
+        tk.Label(frame, text="Height:").grid(row=1, column=2)
         self.height_entry = tk.Entry(frame, width=8)
         self.height_entry.insert(0, self.state_manager.get_state("height"))
         self.height_entry.grid(row=1, column=3, padx=10)
@@ -88,6 +88,26 @@ class BaseGUI:
         # Apply filepath button
         self.apply_button = tk.Button(frame, text="Set", command=self._apply_file_path)
         self.apply_button.grid(row=2, column=6, padx=10)
+
+        # dropdown menu for webcam selection
+        frame = tk.Frame(self.root)
+        frame.pack(pady=0)
+
+        tk.Label(frame, text="Select Webcam:").grid(row=0, column=5, padx=10)
+
+        webcams = self.state_manager.get_state("webcams")
+        self.webcam_label = tk.StringVar(value=webcams[self.state_manager.get_state("webcam_index")])
+        self.webcam_dropdown = tk.OptionMenu(frame, self.webcam_label, *webcams,
+                                             command=lambda x: self._on_webcam_select(webcams, x))
+        self.webcam_dropdown.grid(row=0, column=6, padx=10)
+
+    def _on_webcam_select(self, webcams, selected_value):
+        """Handles the selection of a webcam from the dropdown."""
+        # Store the index of the selected value in the state manager
+        self.state_manager.set_state("webcam_index", webcams.index(selected_value))
+
+        # Update the visible label
+        self.webcam_label.set(selected_value)
 
     def _apply_file_path(self):
         """Apply changes from input fields to the StateManager."""
