@@ -6,3 +6,4 @@ state/*.json
 venv/
 pose_landmarker.task
 .idea/
+images/*.png
